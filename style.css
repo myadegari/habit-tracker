@@ -17,27 +17,43 @@ body {
 }
 
 .container {
-    width: 80%;
-    /* height: 40vh; */
+    width: 40%;
     display: grid;
     row-gap: 1rem;
-    column-gap: 1rem;
-    grid-template-columns: repeat(6, 1fr);
+    /* column-gap: 1rem; */
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .box {
-    width: 8svw;
-    display: inline;
+    width: 5svw;
     aspect-ratio: 1;
-    background-color: aliceblue;
+    background-color:cornsilk ;
     border: .1rem solid black;
+    border-color: antiquewhite;
+    font-weight: bold;
     display: flex;
+    /* color: transparent; */
     justify-content: center;
     align-items: center;
     border-radius: 2svw;
-    /* grid-template-rows: repeat(3, 1fr); */
+}
+@media screen and (max-width: 760px) {
+    .box{
+        width: 12svw;
+    }
+    .container{
+        width: 70%;
+        column-gap: .1rem;
+    }
+}
+.header{
+    text-align: center;
 }
 
-.checked {
-    background-color: gold;
+.checked-1 {
+    background-image: linear-gradient(to bottom,cornsilk 50%,gold 50%);
+
+}
+.checked-2 {
+    background-color:gold;
 }

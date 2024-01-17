@@ -1,20 +1,34 @@
+
+const boxNumber = 30;
 function loadPage() {
     const container = document.querySelector('.container');
     container.innerHTML = ''
-    for (let i = 0; i < 60; ++i) {
+    for (let i = 0; i < boxNumber; ++i) {
         if (!localStorage.getItem(i)) {
             localStorage.setItem(i, '')
             container.innerHTML = container.innerHTML + `<div class="box" onclick="checkHandler()">${i + 1}</div>`
         }
-        else {
+        else if (localStorage.getItem(i) == '1') {
 
-            container.innerHTML = container.innerHTML + `<div class="box checked" onclick="checkHandler()">${i + 1}</div>`
+            container.innerHTML = container.innerHTML + `<div class="box checked-1" onclick="checkHandler()">${i + 1}</div>`
 
 
+        } else {
+            container.innerHTML = container.innerHTML + `<div class="box checked-2" onclick="checkHandler()">${i + 1}</div>`
         }
 
     }
+    calculateStreaks()
 
+}
+function calculateStreaks() {
+    let streak = 0
+    for (let i = 0; i < boxNumber; ++i) {
+        if (localStorage.getItem(i) == '2') {
+            streak += 1
+        }
+        document.querySelector('#streak').innerHTML = `${streak}`
+    }
 }
 
 function clearLocal() {
@@ -26,11 +40,14 @@ function clearLocal() {
 function checkHandler() {
     const id = event.target.innerHTML * 1 - 1
     switch (localStorage.getItem(id)) {
-        case 'true':
-            localStorage.setItem(id, '');
+        case '1':
+            localStorage.setItem(id, '2');
+            break;
+        case '':
+            localStorage.setItem(id, '1');
             break;
         default:
-            localStorage.setItem(id, 'true');
+            localStorage.setItem(id, '');
     }
     loadPage()
 

@@ -1,0 +1,65 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Page based on jekyll
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+      - name: Install PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+            echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install
+        run: pnpm i
+      - name: Build
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v3
+        with:
+            name: production-files
+            path: ./dist
+
+  # Deployment job
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

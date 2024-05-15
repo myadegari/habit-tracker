@@ -36,7 +36,7 @@ export default defineConfig({
           "purpose": "maskable"
         }
       ],
-      "start_url": "/",
+      "start_url": "/habit-tracker/",
       "display": "standalone",
       "background_color": "#030617",
       "theme_color": "#f2f5f9",

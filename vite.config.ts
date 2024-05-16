@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react'
+import { compression } from 'vite-plugin-compression2'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),
+  plugins: [react(),compression(),
     VitePWA({ registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
     manifest:{
@@ -43,10 +44,10 @@ export default defineConfig({
       "description": "simple habit tracker"
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+      globPatterns: ['**/*.{js,css,html,ico,png,svg,eot,ttf,woff}'],
     }
 
      })
   ],
-  base:'/habit-tracker/'
+  base:'/habit-tracker/',
 })

@@ -1,53 +1,53 @@
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
+import moment from 'moment'
+import classNames from 'classnames';
+
 import { DateObject } from "react-multi-date-picker";
 import { useAtom } from "jotai";
-import { dayTrackerAtom, relapseAtom, startDateAtom, themeAtom } from "./AtomStore";
-import MainContent from "./content/main";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { motion as M, AnimatePresence } from "framer-motion"
-import classNames from 'classnames';
-import moment from 'moment'
+import {
+  ATOM_STREAK_TRACKER,
+  ATOM_DAILY_TRACKER,
+  ATOM_RELAPSE_TRACKER,
+  ATOM_START_TRACK_DATE,
+  ATOM_THEME
+}
+  from "./AtomStore";
+  import { useEffect, useLayoutEffect, useState } from "react";
+  import { motion as M, AnimatePresence } from "framer-motion"
+  import MainContent from "./content/main";
 
 
 function App() {
-  // const [currentDate, setCurrentDate] = useAtom(tracker)
   const [useTracker, updateTracker] = useState({
-    streaks: 0,
     currentDate: moment(),
     currentDatePersian: new DateObject({ locale: persian_fa, calendar: persian })
   })
   const LastOfMonth = new DateObject({ locale: persian_fa, calendar: persian }).toLastOfMonth()
-  // const FirstOfMonth =
-  const [startDateStorage, setStartDateStorage] = useAtom(startDateAtom)
-  const [atomDays, setAtomDays] = useAtom(dayTrackerAtom)
-  // const [streak,setStreak] = useAtom(tracker.streaks)
-  const [relapse, setRelapse] = useAtom(relapseAtom)
-  const [theme, setTheme] = useAtom(themeAtom)
+  const [startDateStorage, setStartDateStorage] = useAtom(ATOM_START_TRACK_DATE)
+  const [atomDays, setAtomDays] = useAtom(ATOM_DAILY_TRACKER)
+  const [streak, setStreak] = useAtom(ATOM_STREAK_TRACKER)
+  const [relapse, setRelapse] = useAtom(ATOM_RELAPSE_TRACKER)
+  const [theme, setTheme] = useAtom(ATOM_THEME)
   const days = []
   for (let i = 1; i <= LastOfMonth.day; i++) {
     days.push(i)
   }
 
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      updateTracker({ ...useTracker, currentDate: moment(), currentDatePersian: new DateObject({ locale: persian_fa, calendar: persian }) })
-    }, 3600000);
-    return () => clearInterval(interval);
+    updateTracker({ ...useTracker, currentDate: moment(), currentDatePersian: new DateObject({ date: Date.now(), locale: persian_fa, calendar: persian }) })
   }, [])
 
 
   useEffect(() => {
     if (startDateStorage) {
       if (relapse) {
-        updateTracker({
-          ...useTracker, streaks: moment(useTracker.currentDate).diff(moment(relapse), 'days')
-        })
+        setStreak(moment(relapse).diff(moment(startDateStorage), 'days'))
+
       }
       else {
-        updateTracker({
-          ...useTracker, streaks: moment(useTracker.currentDate).diff(moment(startDateStorage), 'days')
-        })
+        setStreak(useTracker.currentDate.diff(moment(startDateStorage), 'days'))
       }
     }
   }, [relapse, useTracker.currentDate])
@@ -61,7 +61,7 @@ function App() {
   const today = new DateObject(useTracker.currentDate.format('YYYY/MM/DD hh:mm:ss')).convert(persian, persian_fa)
 
   return (
-    <div className="min-w-[100dvw] min-h-[100dvh] dark:bg-slate-950 bg-slate-100 grid place-items-center dark:text-slate-50 font-body transition-colors duration-500 ">
+    <div className="min-w-[100dvw] min-h-[100dvh] dark:bg-black bg-white grid place-items-center dark:text-slate-50 font-body transition-colors duration-500 ">
       <div className="grid gap-5 place-items-center">
         <div className="flex items-center gap-2">
           <p>{MainContent.theme} :</p>
@@ -74,34 +74,42 @@ function App() {
             </span>
           </div>
         </div>
+        {/* TODAY */}
         <div className="flex gap-2">
           <p>{today.day}</p>
           <p>{today.month.name}</p>
           <p>{today.year}</p>
         </div>
+        {/* STREAKS */}
         <div>
-          <p>{MainContent.day}: {useTracker.streaks}</p>
+          <p>{MainContent.day}: {streak}</p>
         </div>
+        {/* DAY OF THE CURRENT MONTH */}
         <div className="grid grid-cols-10 gap-2 place-items-center"
           style={{ direction: 'ltr' }}>
           {days.map((day) => {
-            let color = 'dark:bg-slate-700 dark:opacity-100 bg-slate-600 opacity-30'
+
+            let color = 'bg-blue-200 dark:bg-blue-950'
+
             const dayDate = new DateObject({ locale: persian_fa, calendar: persian }).toFirstOfMonth().add(day - 1, 'day')
             if (startDateStorage && dayDate.toUnix() < moment(startDateStorage).unix()) {
-              color = 'dark:bg-slate-500 dark:opacity-20 bg-slate-200'
+              color = 'dark:bg-woodSmoke-950 bg-slate-200'
             } else if (dayDate.format() == useTracker.currentDatePersian.format()) {
-              color = 'dark:bg-blue-800 bg-blue-400'
+              color = 'bg-gradient-to-t from-blue-600 from-10% via-blue-900 via-90% to-blue-500 border dark:border-blue-900'
             }
             else {
               if (dayDate.toUnix() < moment(useTracker.currentDate).unix() && startDateStorage && dayDate.toUnix() >= moment(startDateStorage).unix()) {
-                color = atomDays[day - 1] ? 'bg-green-500' : 'bg-rose-500'
+                color = atomDays[day - 1] ? 'bg-gradient-to-t from-green-600 from-10% via-green-900 via-90% to-green-500 border dark:border-green-900'
+                  : 'bg-gradient-to-t from-shiraz-600 from-10% via-shiraz-900 via-90% to-shiraz-500 border dark:border-shiraz-900'
               }
             }
-            return <div
+            return <M.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: Math.ceil(day * 0.1) * 0.3 }}
               key={day}
               className={`lg:w-[50px] md:w-[40px] sm:w-[35px] w-[25px] aspect-square flex items-center justify-center ${color}`} >
-            
-            </div>
+            </M.div>
           }
 
           )}
@@ -114,12 +122,13 @@ function App() {
               <M.button initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileTap={{ scale: 0.9 }}
-                whileHover={{ scale: 1.05 }}
                 exit={{ opacity: 0, scale: 0 }}
-                className="px-5 py-2 rounded-md opacity-70 bg-slate-700"
+                className="px-5 py-2 rounded-md opacity-70 bg-gradient-to-t from-woodSmoke-600 from-10% via-woodSmoke-900 via-90% to-woodSmoke-500 border dark:border-woodSmoke-900"
                 onClick={() => {
                   setStartDateStorage(undefined)
                   setRelapse(undefined)
+                  setStreak(0)
+                  setAtomDays(new Array(LastOfMonth.day).fill(true))
                 }}>{MainContent.clear}</M.button>
             }
           </AnimatePresence>
@@ -127,21 +136,19 @@ function App() {
           <M.button initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
-            className={classNames("rounded-md px-5 py-2 cursor-pointer opacity-70 bg-blue-600", { "opacity-70 ": startDateStorage })}
+            className="rounded-md px-5 py-2 cursor-pointer opacity-70 bg-gradient-to-t from-sky-600 from-10% via-sky-900 via-90% to-sky-500 border dark:border-sky-900"
             onClick={() => {
               setStartDateStorage(moment())
-              updateTracker({ ...useTracker, streaks: 0 })
+              setStreak(0)
 
             }}
           >{MainContent.start}</M.button>
           <M.button initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
-            className={classNames("rounded-md cursor-pointer px-5 py-2 ",
-              { "bg-rose-600 opacity-70": startDateStorage },
-              { "dark:bg-slate-800 opacity-20 bg-slate-500": !startDateStorage }
+            className={classNames("rounded-md  px-5 py-2 ",
+              { "bg-gradient-to-t from-shiraz-600 from-10% via-shiraz-900 via-90% to-shiraz-500 t-90% border dark:border-shiraz-900 cursor-pointer": startDateStorage },
+              { "bg-gradient-to-t from-woodSmoke-600 from-10% via-woodSmoke-900 via-90% to-woodSmoke-500 border dark:border-woodSmoke-900": !startDateStorage }
 
             )}
             disabled={!startDateStorage}
@@ -149,7 +156,7 @@ function App() {
               if (startDateStorage) {
                 setAtomDays((prev) => {
                   const newArray = prev.slice()
-                  const today = new DateObject({ date: moment(useTracker.currentDate).unix(), locale: persian_fa, calendar: persian })
+                  const today = new DateObject({ date: new Date, locale: persian_fa, calendar: persian })
                   newArray[today.day - 1] = !newArray[today.day - 1]
                   return newArray
                 })
@@ -162,9 +169,10 @@ function App() {
           </M.button>
 
         </M.div>
-        {startDateStorage ? <p>{MainContent.startDate}: {new DateObject(useTracker.currentDate.format('YYYY/MM/DD hh:mm:ss')).convert(persian, persian_fa).format()}</p> : <p className="lg:w-[80%] sm:w-[50%]  w-[80%] text-justify">
-          {MainContent.descriptionMSG}
-        </p>}
+        {startDateStorage 
+        ? <p>{MainContent.startDate}: {new DateObject(moment(startDateStorage).format('YYYY/MM/DD hh:mm:ss')).convert(persian, persian_fa).format()}</p> 
+        : <p className="lg:w-[80%] sm:w-[50%]  w-[80%] text-justify">{MainContent.descriptionMSG}</p>
+        }
 
       </div>
     </div>

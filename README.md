@@ -11,7 +11,7 @@
 راستی میتونی این سایت رو مثل یک برنامه نصب کنی و بدون نیاز به اینترنت هم ازش استفاده کنی. خیلی راحت و دسترس‌پذیره!
 مشتاقانه منتظر نظرات و پیشنهاداتتون هستم.
 
-[لینک سایت]('https://myadegari.github.io/habit-tracker/')
+[لینک سایت](https://myadegari.github.io/habit-tracker/)
 
 ### تکنولوژی های استفاده شده برای طراحی این ابزار
 
@@ -38,7 +38,7 @@ You can actually install this website like an app and use it without needing the
 
 Feel free to share your thoughts and suggestions—I'm eagerly waiting! 😊
 
-[Website Link !]('https://myadegari.github.io/habit-tracker/')
+[Website Link !](https://myadegari.github.io/habit-tracker/)
 
 <div>
 <img src='./repository.png'>

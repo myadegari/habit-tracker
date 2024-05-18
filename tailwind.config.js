@@ -10,6 +10,9 @@ export default {
     },
  
     extend: {
+      screens:{
+        'xsm':{max:'360px'},
+      },
       colors:{
         'woodSmoke': {
           50:  '#f7f7f8',

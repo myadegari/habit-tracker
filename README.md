@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# 😉 پی‌گیر
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+بریم شروع کنیم با رهگیری عاداتت! واقعا هم وقتشه که یکم به این موضوع برسی. عادت های روزانه مون خیلی تاثیر می‌ذارن روی زندگیمون، ولی اکثرا اصلا متوجه نمی‌شیم این عادت ها چیکار دارن باهامون می‌کنن.
 
-Currently, two official plugins are available:
+بهت پیشنهاد می‌کنم یه روز مشخص رو برای شروع رهگیری عادت هات انتخاب کنی. هر وقت آماده بودی، فقط کافیه روی دکمه
+**"شروع رهگیری"**
+  کلیک کنی و کار شروع می‌شه. مطمئن باش که این روند به تو کمک می‌کنه تا بتونی عادت های خوبت رو شناسایی کنی و روی اونا تمرکز کنی.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+منتظر شنیدن نتیجه تلاش هات هستم! به موفقیت خودت ایمان داشته باش، مطمئن باش که می‌تونی این کار رو انجام بدی.
 
-## Expanding the ESLint configuration
+راستی میتونی این سایت رو مثل یک برنامه نصب کنی و بدون نیاز به اینترنت هم ازش استفاده کنی. خیلی راحت و دسترس‌پذیره!
+مشتاقانه منتظر نظرات و پیشنهاداتتون هستم.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+[لینک سایت]('https://myadegari.github.io/habit-tracker/')
 
-- Configure the top-level `parserOptions` property like this:
+### تکنولوژی های استفاده شده برای طراحی این ابزار
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer%20Motion-fm?style=for-the-badge&color=%23eeccaa)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Jotai](https://img.shields.io/badge/%F0%9F%91%BB%20JOTAI-black?style=for-the-badge)
+![PWA](https://img.shields.io/badge/PWA-pwa?style=for-the-badge&logo=pwa)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# 😉Track It
+It's time to start tracking your habits! This is really an important thing to focus on. Our daily habits have a huge impact on our lives, but most of the time we don't even realize how these habits are affecting us.
+
+I'd suggest picking a specific day to start tracking your habits. Whenever you're ready, just click the 
+**"Start Tracking"**
+ button and the process will begin. I'm sure this process will help you identify your good habits and allow you to focus on them.
+
+I'm looking forward to hearing about your progress! Believe in your own success - I'm confident you can do this.
+
+You can actually install this website like an app and use it without needing the internet. It's super convenient and accessible!
+
+Feel free to share your thoughts and suggestions—I'm eagerly waiting! 😊
+
+[Website Link !]('https://myadegari.github.io/habit-tracker/')
+
+<div>
+<img src='./repository.png'>
+</div>

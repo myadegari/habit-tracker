@@ -34,7 +34,6 @@ function App() {
     days.push(i)
   }
 
-
   useEffect(() => {
     updateTracker({ ...useTracker, currentDate: moment(), currentDatePersian: new DateObject({ date: Date.now(), locale: persian_fa, calendar: persian }) })
   }, [])
@@ -42,12 +41,11 @@ function App() {
 
   useEffect(() => {
     if (startDateStorage) {
-      if (relapse) {
-
-        setStreak(useTracker.currentDate.diff(moment(relapse), 'days'))
+      if (relapse) { 
+        setStreak(useTracker.currentDate.startOf('day').diff(moment(relapse).startOf('day'), 'days'))
       }
       else {
-        setStreak(useTracker.currentDate.diff(moment(startDateStorage), 'days'))
+        setStreak(useTracker.currentDate.startOf('day').diff(moment(startDateStorage).startOf('day'), 'days'))
       }
     }
   }, [relapse, useTracker.currentDate])
@@ -57,12 +55,16 @@ function App() {
 
   }, [theme])
 
+  
 
   const today = new DateObject(useTracker.currentDate.format('YYYY/MM/DD hh:mm:ss')).convert(persian, persian_fa)
-
   return (
-    <div className="min-w-[100dvw] min-h-[100dvh] dark:bg-woodSmoke-950 bg-woodSmoke-50 grid place-items-center dark:text-slate-50 font-body transition-colors duration-500 ">
-      <div className="grid gap-5 place-items-center">
+    <div className="min-w-[100dvw] min-h-[100dvh] dark:bg-woodSmoke-950 bg-woodSmoke-50 grid place-items-center dark:text-slate-50 font-body transition-colors duration-500 overflow-hidden py-5">
+     <M.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5,type:'spring', stiffness: 40, damping: 7 }}
+      className="grid gap-2 place-items-center lg:w-[600px] md:w-[500px] sm:w-[450px] w-[340px] xsm:w-[280px]">
         <div className="flex items-center gap-2">
           <p>{MainContent.theme} :</p>
           <div className="flex gap-2 bg-slate-300 dark:bg-slate-500 w-[40px] h-[15px] rounded-full relative">
@@ -91,7 +93,7 @@ function App() {
 
             let color = 'bg-blue-200 dark:bg-blue-950'
 
-            const dayDate = new DateObject({ locale: persian_fa, calendar: persian }).toFirstOfMonth().add(day - 1, 'day')
+            const dayDate = new DateObject({date:`${useTracker.currentDatePersian.toString()} 23:59:59`, locale: persian_fa, calendar: persian }).toFirstOfMonth().add(day - 1, 'day')
             if (startDateStorage && dayDate.toUnix() < moment(startDateStorage).unix()) {
               color = 'dark:bg-woodSmoke-900 bg-slate-200'
             } else if (dayDate.format() == useTracker.currentDatePersian.format()) {
@@ -107,9 +109,9 @@ function App() {
             return <M.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: Math.ceil(day * 0.1) * 0.3 }}
+              transition={{ duration: 0.5, delay: Math.ceil(day * 0.1) * 0.3 ,type:'spring', stiffness: 40, damping: 7 }}
               key={day}
-              className={`lg:w-[50px] md:w-[40px] sm:w-[35px] w-[25px] aspect-square rounded-md ${color}`} >
+              className={`lg:w-[50px] md:w-[40px] sm:w-[35px] w-[29px] xsm:w-[20px] aspect-square rounded-md ${color}`} >
             </M.div>
           }
 
@@ -169,10 +171,10 @@ function App() {
         </M.div>
         {startDateStorage 
         ? <p>{MainContent.startDate}: {new DateObject(moment(startDateStorage).format('YYYY/MM/DD hh:mm:ss')).convert(persian, persian_fa).format()}</p> 
-        : <p className="lg:w-[80%] sm:w-[50%]  w-[80%] text-justify">{MainContent.descriptionMSG}</p>
+        : <p className="mt-5 text-justify sm:text-base text-sm">{MainContent.descriptionMSG}</p>
         }
 
-      </div>
+      </M.div>
     </div>
   )
 }

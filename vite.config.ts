@@ -9,8 +9,8 @@ export default defineConfig({
     VitePWA({ registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
     manifest:{
-      "name": "TrackIt",
-      "short_name": "TrackIt",
+      "name": "پی‌گیر",
+      "short_name": "پی‌گیر",
       "icons": [
         {
           "src": "/habit-tracker/pwa-192x192.png",
